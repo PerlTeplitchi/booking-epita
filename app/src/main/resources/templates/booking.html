@@ -1,23 +1,28 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>B&B Manor</title> 
+
+<head>
+    <title>B&B Manor</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=IM+Fell+English+SC&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Creepster&family=IM+Fell+English+SC&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <H1 class="im-fell-english-sc-regular">Book a room in the mythic Addam's Family Manor!</H1>
     <div class="container">
         <div class="column left-column">
-            <img th:src="@{/images/manor.jpg}" alt="manor" class="responsive-image"/>
+            <img th:src="@{/images/manor.jpg}" alt="manor" class="responsive-image" />
         </div>
         <div class="column right-column">
             <div class="form-container">
                 <p>Room for 2 people:</p>
                 <form action="#" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <div class="form-row">
                         <label class="form-label" for="checkInDate">Select check in date:</label>
                         <input class="form-input" type="date" id="checkInDate" name="checkInDate" required>
@@ -36,7 +41,8 @@
                     </div>
                     <div class="form-row">
                         <label class="form-label" for="creditCardNumber">Credit Card number:</label>
-                        <input class="form-input" type="input" id="creditCardNumber" name="creditCardNumber" minlength="16" maxlength="16" required>
+                        <input class="form-input" type="input" id="creditCardNumber" name="creditCardNumber"
+                            minlength="16" maxlength="16" required>
                     </div>
                     <!-- Step 2: CSRF -->
                     <div class="button-container">
@@ -48,4 +54,5 @@
         </div>
     </div>
 </body>
+
 </html>
