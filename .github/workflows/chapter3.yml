@@ -51,7 +51,7 @@ jobs:
 
       # Sauvegarder le rapport différentiel
       - name: Upload SARIF diff report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: osv-security-diff
           path: osv-diff.sarif
