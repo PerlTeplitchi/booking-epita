@@ -1,0 +1,54 @@
+name: PR Security Check
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  DependenciesAnalysis:
+    runs-on: ubuntu-latest
+    name: Analyse sécurité sur PR
+
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Scanner la branche de base (avant PR)
+      - name: Scan base branch with OSV Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v2.0.2
+        with:
+          scan-args: |
+            --lockfile=app/gradle.lockfile
+            --format=sarif
+            --output=base-results.sarif
+        continue-on-error: true
+
+      # Scanner le code actuel (head, la PR elle-même)
+      - name: Scan PR branch with OSV Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v2.0.2
+        with:
+          scan-args: |
+            --lockfile=app/gradle.lockfile
+            --format=sarif
+            --output=pr-results.sarif
+        continue-on-error: true
+
+      # Comparer les deux rapports
+      - name: Compare base and PR results with OSV Reporter
+        uses: google/osv-scanner-action/osv-reporter-action@v1
+        with:
+          base: base-results.sarif
+          head: pr-results.sarif
+          output: osv-diff.sarif
+
+      # Sauvegarder le rapport différentiel
+      - name: Upload SARIF diff report
+        uses: actions/upload-artifact@v3
+        with:
+          name: osv-security-diff
+          path: osv-diff.sarif
