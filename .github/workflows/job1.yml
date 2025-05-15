@@ -17,7 +17,10 @@ jobs:
       - name: Lancer OSV Scanner
         uses: google/osv-scanner-action/osv-scanner-action@v2.0.2
         with:
-          directory: '.'
+          scan-args: |
+            --lockfile=app/gradle.lockfile
+            --format=sarif
+            --output=osv-results.sarif
 
       - name: Envoyer le rapport au tableau de bord de sécurité
         uses: github/codeql-action/upload-sarif@v3
