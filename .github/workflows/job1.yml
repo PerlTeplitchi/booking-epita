@@ -20,7 +20,7 @@ jobs:
           scan-args: |
             --lockfile=app/gradle.lockfile
             --format=sarif
-            --output=osv-results.sarif
+            --output=results.sarif
         continue-on-error: true
 
       - name: Envoyer le rapport au tableau de bord de sécurité
