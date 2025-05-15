@@ -43,6 +43,11 @@ jobs:
 
       # Comparer les deux rapports
       - name: Compare base and PR results with OSV Reporter
+        run: |
+          curl -sSL -o osv-reporter https://github.com/google/osv-scanner-action/releases/latest/download/osv-scanner-action-reporter-linux-amd64
+          chmod +x osv-reporter
+          ./osv-reporter compare --base base-results.sarif --head pr-results.sarif --output osv-diff.sarif
+
         uses: google/osv-scanner-action/osv-reporter-action@v2.0.2
         with:
           base: base-results.sarif
